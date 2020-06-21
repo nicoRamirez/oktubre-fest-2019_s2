@@ -3,29 +3,29 @@ import personas.*
 import marca.*
 
 test "testRequerimientos" {
-	const hofbrau = new CervezaRubia()
-	hofbrau.porcentAlcohol(0.08)
-	const jarraMetal = new Jarra()
-	jarraMetal.esDeMarca(hofbrau)
-	jarraMetal.capXLitros(0.5)
+	const hofbrau =new CervRubia()
+	hofbrau.graduacion(0.08)
+	const jarraVidr=new Jarra()
+	jarraVidr.tamanio(small)
+	jarraVidr.marca(hofbrau)
 	
-	assert.equals(0.04,jarraMetal.contAlcohol())
+	assert.equals(0.04,jarraVidr.cantAlcohol())
 	
-	const jarraPremium = new Jarra()
-	const patagonia = new CervezaRoja()
-	patagonia.lupudosXLitros(0.8)
-	graduacionMundial.cant(5.2)
-	jarraPremium.esDeMarca(patagonia)
-	jarraPremium.capXLitros(3.5)
-	const juan = new Checos()
-	juan.agregarJarra(jarraMetal)
-	juan.agregarJarra(jarraPremium)
-	assert.equals(2.08,juan.cantidadAlcoholIngerido())
+	const jarraSuper=new Jarra()
+	jarraSuper.tamanio(extraLarge)
+	const patagonia =new CervRoja()
+	patagonia.cantLupudo(0.7)
+	graduacionMundial.cant(0.15)
+	jarraSuper.marca(patagonia)
+	const hoffman=new Checos()
+	hoffman.jarrasCompr(jarraVidr)
+	hoffman.jarrasCompr(jarraSuper)
 	
-	juan.peso(85)
-	juan.nivelDeAguante(130)
-	assert.that(juan.estaEbrio())
+	assert.equals(0.32125,hoffman.totalIngerido())
 	
-	assert.notThat(juan.leGusta(patagonia))
+	hoffman.aguante(100)
+	hoffman.peso(80)
+	assert.notThat(hoffman.estaEbria())
 	
+	assert.notThat(hoffman.marcaLeGusta(jarraVidr))
 }

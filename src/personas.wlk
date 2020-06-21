@@ -1,64 +1,66 @@
 import marca.*
 import jarra.*
-class Personas {
-	var property peso=0 
-	const property jarras=[]
-	var property leGustaLaMusicTrad
-	var property nivelDeAguante=0
-	var property origen
-	method agregarJarra(jarra){
-		jarras.add(jarra)
+class Persona{
+	var property peso=0
+	var property jarrasCompr=[]
+	var property leGustMusic
+	var property aguante=0
+	method estaEbria(){
+		return self.totalIngerido()*peso>aguante
+	}	
+	method jarrasCompr(jarra){
+		jarrasCompr.add(jarra)
 	}
-	method estaEbrio(){
-		return self.cantidadAlcoholIngerido() * peso > nivelDeAguante
+	method totalIngerido(){
+		return jarrasCompr.sum({jarra=>jarra.cantAlcohol()})
 	}
-	method cantidadAlcoholIngerido(){
-		return jarras.sum({jarra=>jarra.esDeMarca().porcentAlcohol()})
+	method entrar(carpa){
+		carpa.ingresantes(self)
 	}
-	method comprarCerveza(carpa){
-		self.agregarJarra(carpa.jarra())
+	method leSirve(carpa){
+		if(carpa.estaEnCarpa(self)){carpa.leVendeA(self)
+		self.jarrasCompr(carpa.jarra()) }
+		else{carpa.msjNoEsta()}
 	}
+}
+class Belgas inherits Persona{
+	const property nacionalidad=belgica
+	method marcaLeGusta(jarra){
+		return jarra.marca().cantLupudo() > 4 and jarra.tamanio().capac() == 1
+	}	
 	method quiereEntrar(carpa){
-		return leGustaLaMusicTrad.leGusta() == carpa.tieneMusica().musica()
+		return self.marcaLeGusta(carpa.jarra()) and 
+		carpa.bandaMusic().musica()== leGustMusic.leGusta()
 	}
 	method esPatriota(){
-		return jarras.all({jarra=>jarra.esDeMarca().paisOrigen()==origen})
+		return jarrasCompr.all({jarra=>jarra.marca().origen()==nacionalidad })
 	}
 }
-class Belgas inherits Personas{
-	override method origen(){
-		origen= belgica
+class Checos inherits Persona{
+	const property nacionalidad=checoslovaquia
+	method marcaLeGusta(jarra){
+		return jarra.marca().graduacion() > 0.8
 	}
-	method leGusta(cerveza){
-		return cerveza.lupudosXLitros() > 4
+	method quiereEntrar(carpa){
+		return self.marcaLeGusta(carpa.jarra()) and 
+		carpa.bandaMusic().musica()== leGustMusic.leGusta()
 	}
-	override method quiereEntrar(carpa){
-		return super(carpa) and
-		self.leGusta(carpa.jarra())
-	}
-}
-class Checos inherits Personas{
-	override method origen(){
-		origen = checoslovaquia
-	}
-	method leGusta(cerveza){
-		return cerveza.porcentAlcohol() > 8
-	}
-	override method quiereEntrar(carpa){
-		return super(carpa) and
-		self.leGusta(carpa.jarra())
+	method esPatriota(){
+		return jarrasCompr.all({jarra=>jarra.marca().origen()==nacionalidad })
 	}
 }
-class Alemanes inherits Personas{
-	override method origen(){
-		origen = alemania
-	}
-	method leGusta(cerveza){
+class Alemanes inherits Persona{
+	const property nacionalidad=alemania
+	method marcaLeGusta(jarra){
 		return true
 	}
-	override method quiereEntrar(carpa){
-		return super(carpa) and
-		self.leGusta(carpa.jarra()) and carpa.ingresantes().size().even()
+	method quiereEntrar(carpa){
+		return self.marcaLeGusta(carpa.jarra()) and 
+		carpa.bandaMusic().musica()== leGustMusic.leGusta() and 
+		carpa.capacActual() / 2 == 0
+	}
+	method esPatriota(){
+		return jarrasCompr.all({jarra=>jarra.marca().origen()==nacionalidad })
 	}
 }
 object siLeGusta{

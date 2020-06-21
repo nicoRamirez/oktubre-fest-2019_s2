@@ -1,33 +1,52 @@
 import jarra.*
 import personas.*
 import marca.*
-class Carpas {
-	var property limiteAdmitido
+class Carpas{
+	const property capacidad=50
+	var property bandaMusic	
 	var property ingresantes=[]
 	var property jarra
-	var property tieneMusica
-	
-	method dejaIngresar(persona){
-		return limiteAdmitido > 0 and 
-		not persona.estaEbrio()
-	}	
-	method ingresantes(persona){
-		if(self.puedeEntrar(persona) and limiteAdmitido > 0){
-			ingresantes.add(persona)
-			limiteAdmitido= (limiteAdmitido - 1).max(0)
-		}
+	method capacActual(){
+		return ingresantes.size()
+	}
+	method dejarEntrar(persona){
+		return self.capacActual() < capacidad and 
+		not persona.estaEbria()
 	}
 	method puedeEntrar(persona){
-		return self.dejaIngresar(persona) and persona.quiereEntrar(self)
+		return self.dejarEntrar(persona) and persona.quiereEntrar(self)
 	}
-	method ebriosEmperdenidos(){
-		return ingresantes.count({persona=>persona.jarra().capXLitros()>1})
+	method msjNoIngrese(){
+		const msj="usted no puede entrar intente mas tarde"
+		return msj
 	}
-	method vendeCerveza(persona){
-		if(ingresantes.contains(persona)){
-			persona.comprarCerveza(self)
-			}
+	method msjNoEsta(){
+		const msj2="usted no se encuentra en la carpa"
+		return msj2
 	}
+	method ingresantes(persona){
+		if(self.puedeEntrar(persona)){
+		ingresantes.add(persona)} else{  self.msjNoIngrese()}
+	}
+	method leVendeA(persona){
+		return jarra.tamanio() and jarra.marca()	
+	}
+	method estaEnCarpa(persona){
+		return ingresantes.contains(persona)
+	}
+	method homerosSimpson(){
+		return ingresantes.count({persona=>persona.estaEbria()})
+	}
+	
+}
+class CarpaRubia inherits Carpas{
+
+}
+class CarpaNegra inherits Carpas{
+	
+}
+class CarpaRoja inherits Carpas{
+	
 }
 
 object conBandaMusica{

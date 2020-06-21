@@ -4,22 +4,22 @@ import marca.*
 import carpas.*
 test "testRequerimientos2" {
 	const juan=new Alemanes()
-	juan.leGustaLaMusicTrad(siLeGusta)
-	const carpa1=new Carpas()
-	const jarraFuerte=new Jarra()
-	const palermo=new CervezaRubia()
-	palermo.paisOrigen(belgica)
-	palermo.lupudosXLitros(8)
-	palermo.porcentAlcohol(5)
-	jarraFuerte.capXLitros(5)
-	jarraFuerte.esDeMarca(palermo)
-	carpa1.jarra(jarraFuerte)
-	carpa1.tieneMusica(conBandaMusica)
-	
+	juan.leGustMusic(siLeGusta)
+	const carpa1=new CarpaRubia()
+	const hofbrau =new CervRubia()
+	hofbrau.graduacion(0.08)
+	hofbrau.origen(alemania)
+	const jarraVidr=new Jarra()
+	jarraVidr.tamanio(small)
+	jarraVidr.marca(hofbrau)
+	carpa1.jarra(jarraVidr)
+	carpa1.bandaMusic(conBandaMusica)
 	assert.that(juan.quiereEntrar(carpa1))
-
-	carpa1.limiteAdmitido(0)
-	assert.notThat(carpa1.dejaIngresar(juan))
-	assert.notThat(carpa1.puedeEntrar(juan))
+	assert.that(carpa1.dejarEntrar(juan))
+	assert.that(carpa1.puedeEntrar(juan))
+	carpa1.ingresantes(juan)
+	juan.leSirve(carpa1)
+	assert.equals(0,carpa1.homerosSimpson())
+	assert.that(juan.esPatriota())
 	
 }

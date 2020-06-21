@@ -1,28 +1,25 @@
 class Marca {
-	var property lupudosXLitros=0
-	var property paisOrigen
+	var property origen
+	var property cantLupudo=0 
 	
 }
-
-class CervezaRubia inherits Marca{
-	var property porcentAlcohol
+class CervRubia inherits Marca{
+	var property graduacion=0
 }
-
-class CervezaNegra inherits Marca{
-	var property graduacionReglamentaria=graduacionMundial
-	 method porcentAlcohol(){
-		return graduacionReglamentaria.cant().min(self.lupudosXLitros())
+class CervRoja inherits Marca{
+	var property regraGrad=graduacionMundial
+	method graduacion(){
+		return regraGrad.cant().min(cantLupudo*2)*1.25
 	}
 }
-
-class CervezaRoja inherits Marca{
-	var property graduacionReglamentaria=graduacionMundial
-	method porcentAlcohol(){
-		return graduacionReglamentaria.cant().min(self.lupudosXLitros()*2) * 1.25
+class CervNegra inherits Marca{
+	var property regraGrad=graduacionMundial
+	method graduacion(){
+		return regraGrad.cant().min(cantLupudo*2)
 	}
 }
-object graduacionMundial{
-	var property cant=0
+object graduacionMundial{ 
+	var property cant=0 
 }
 object alemania{}
 object checoslovaquia{}
